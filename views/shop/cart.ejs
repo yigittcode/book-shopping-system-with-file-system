@@ -1,0 +1,51 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <% if (prods.length > 0) { %>
+                <div id="totalPriceSign">
+                    <h2>Total Price: <%= totalPrice %> </h2>
+                </div>
+                    <div class="grid">
+                        <% for (let product of prods) { %>
+                            <article class="card product-item">
+                                <header class="card__header">
+                                    <h1 class="product__title">
+                                        <%= product.productItem.title %>                
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="<%= product.productItem.imageUrl %>" alt="<%= product.productItem.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <h2 class="product__price">$
+                                        <%= product.productItem.price %> (<%= product.quantity  %>)
+                                    </h2>
+                                    <p class="product__description">
+                                        <%= product.productItem.description %>
+                                    </p>
+                                </div>
+
+                                <div class="card__actions">
+                                    <form action="/add-to-cart" method="POST">
+                                        <button class="btn">+</button>
+                                        <input type="hidden" name="productID", value="<%= product.productItem.id  %>">
+                                    </form>
+                                  <form action="/product/remove-from-cart/<%= product.productItem.id %>" method="POST">
+                                <button class="btn">-</button>
+                                </form>
+                                    <form action="/product/detail/<%= product.productItem.id %>" method="GET">
+                                        <button class="btn">Detail</button>
+                                    </form>
+                                </div>
+                            </article>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <h1>No Products Found!</h1>
+                        <% } %>
+            </main>
+            <%- include('../includes/end.ejs') %>
